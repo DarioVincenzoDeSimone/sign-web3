@@ -11,4 +11,7 @@
   <button (click)="signMessage()">SIGN</button>
 
   <button (click)="showBalance()">Balance</button>
+  <ng-container *ngIf="signature">
+    <qrcode [qrdata]="signature" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+  </ng-container>
 </ng-container>

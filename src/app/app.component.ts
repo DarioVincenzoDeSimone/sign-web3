@@ -13,6 +13,7 @@ export class AppComponent {
   accounts: string[] = [];
   messageToSign: string = '';
   web3: Web3 = new Web3(/* magic.rpcProvider */);
+  signature: string = '';
 
   constructor() {
 
@@ -55,8 +56,9 @@ export class AppComponent {
   }
 
   async signMessage() {
-    let signature = await this.web3.eth.personal.sign(this.messageToSign, this.accounts[0], '');
-    console.log(signature);
+    this.signature = await this.web3.eth.personal.sign(this.messageToSign, this.accounts[0], '');
+    console.log(this.signature);
+
     // if (this.web3.currentProvider) {
     //   from(this.web3.currentProvider.request({
     //     method: 'personal_sign',
@@ -64,7 +66,7 @@ export class AppComponent {
     //     requestOptions: { from: this.accounts[0] }
     //   })).subscribe(res => console.log(res));
     // }
-    
+
 
   }
 
