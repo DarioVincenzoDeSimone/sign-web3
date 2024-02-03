@@ -1,3 +1,14 @@
-<div>
-  DARIO
-</div>
+<button *ngIf="!accounts.length" (click)="loginMagic()">LOGIN</button>
+
+<ng-container *ngIf="accounts.length">
+
+  <span>Logged Wallet: {{accounts[0]}}</span>
+  <br>
+  <button (click)="logoutMagic()">LOGOUT</button>
+
+  <span>Message to sign</span>
+  <input [(ngModel)]="messageToSign">
+  <button (click)="signMessage()">SIGN</button>
+
+  <button (click)="showBalance()">Balance</button>
+</ng-container>
