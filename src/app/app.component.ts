@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginWithEmailOTPConfiguration, LoginWithMagicLinkConfiguration, Magic } from 'magic-sdk';
 import { from } from 'rxjs';
-import Web3 from 'web3';
+import Web3, { Numbers } from 'web3';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,9 @@ export class AppComponent {
   messageToSign: string = '';
   web3: Web3 = new Web3(/* magic.rpcProvider */);
   signature: string = '';
-
+  receiverAddress: string = '';
+  bnbAmount: Numbers = '';
+  txLink: string = '';
   constructor() {
 
     // const web3 = new Web3(magic.rpcProvider);
@@ -44,6 +46,8 @@ export class AppComponent {
 
     this.accounts = await magic.wallet.connectWithUI();
     console.log(await magic.wallet.getInfo());
+    // await provider.connect();
+
 
 
   }
@@ -58,7 +62,8 @@ export class AppComponent {
   async signMessage() {
     this.signature = await this.web3.eth.personal.sign(this.messageToSign, this.accounts[0], '');
     console.log(this.signature);
-
+    let res = await this.web3.eth.sign(this.web3.utils.utf8ToHex(this.messageToSign), this.accounts[0]);
+    console.log(res);
     // if (this.web3.currentProvider) {
     //   from(this.web3.currentProvider.request({
     //     method: 'personal_sign',
@@ -90,6 +95,12 @@ export class AppComponent {
   //   }
 
   // }
+
+  async sendBnB() {
+    let res = await this.web3.eth.sendTransaction({ from: this.accounts[0], to: this.receiverAddress, value: this.web3.utils.toWei(this.bnbAmount, 'ether'), gas: 21000 });
+    console.log(res);
+    this.txLink = 'https://testnet.bscscan.com/tx/' + res.transactionHash;
+  }
 }
 
 
