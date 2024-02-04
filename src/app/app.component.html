@@ -1,24 +1,30 @@
-<button *ngIf="!accounts.length" (click)="loginMagic()">LOGIN</button>
+<div *ngIf="isLoggedCheck">
+  <button *ngIf="!accounts.length" (click)="loginMagic()">LOGIN</button>
 
-<ng-container *ngIf="accounts.length">
+  <ng-container *ngIf="accounts.length">
 
-  <span>Logged Wallet: {{accounts[0]}}</span>
-  <br>
-  <button (click)="logoutMagic()">LOGOUT</button>
+    <span>Logged Wallet: {{accounts[0]}}</span>
+    <br>
+    <button (click)="logoutMagic()">LOGOUT</button>
 
-  <span>Message to sign</span>
-  <input [(ngModel)]="messageToSign">
-  <button (click)="signMessage()">SIGN</button>
+    <span>Message to sign</span>
+    <input [(ngModel)]="messageToSign">
+    <button (click)="signMessage()">SIGN</button>
 
-  <button (click)="showBalance()">Balance</button>
-  <ng-container *ngIf="signature">
-    <qrcode [qrdata]="signature" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+    <button (click)="showBalance()">Balance</button>
+    <ng-container *ngIf="signature">
+      <qrcode [qrdata]="signature" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+    </ng-container>
+    <br>
+    <input [(ngModel)]="receiverAddress" placeholder="receiverAddress">
+    <input [(ngModel)]="bnbAmount" placeholder="bnb Amount" type="number">
+    <button (click)="sendBnB()">SendBNB</button>
+    <ng-container *ngIf="txLink">
+      <qrcode [qrdata]="txLink" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+    </ng-container>
+
+
+    <br>
+    <button (click)="sendPorceddu()">Send Porceddu</button>
   </ng-container>
-  <br>
-  <input [(ngModel)]="receiverAddress" placeholder="receiverAddress">
-  <input [(ngModel)]="bnbAmount" placeholder="bnb Amount" type="number">
-  <button (click)="sendBnB()">SendBNB</button>
-  <ng-container *ngIf="txLink">
-    <qrcode [qrdata]="txLink" [width]="256" [errorCorrectionLevel]="'M'" ></qrcode>
-  </ng-container>
-</ng-container>
+</div>

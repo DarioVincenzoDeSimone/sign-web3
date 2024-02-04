@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginWithEmailOTPConfiguration, LoginWithMagicLinkConfiguration, Magic } from 'magic-sdk';
-import { from } from 'rxjs';
+import { from, of, switchMap } from 'rxjs';
+import { SmartContractService } from 'src/services/smart-contract.service';
+import { Web3Service } from 'src/services/web3.service';
 import Web3, { Numbers } from 'web3';
 
 @Component({
@@ -8,27 +10,33 @@ import Web3, { Numbers } from 'web3';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'test1';
   accounts: string[] = [];
   messageToSign: string = '';
-  web3: Web3 = new Web3(/* magic.rpcProvider */);
+  // web3: Web3 = new Web3(/* magic.rpcProvider */);
   signature: string = '';
   receiverAddress: string = '';
   bnbAmount: Numbers = '';
   txLink: string = '';
-  constructor() {
+  isLoggedCheck: boolean = false;
 
-    // const web3 = new Web3(magic.rpcProvider);
-    // from(magic.user.getInfo()).subscribe(info => {
-    //   if (info.publicAddress) this.accounts.push(info.publicAddress);
-    // });
+  constructor(
+    private web3Service: Web3Service,
+    private smartContractService: SmartContractService
+  ) {
 
-    // from(this.web3.eth.getAccounts()).subscribe(addresses => {
-    //   if (addresses.length) this.accounts = addresses;
-    // });
+  }
 
-
+  async ngOnInit(): Promise<void> {
+    // console.log(magic.user.getInfo())
+    let isLogged: boolean = await magic.user.isLoggedIn();
+    if (isLogged) {
+      let provider = await magic.wallet.getProvider();
+      this.web3Service.web3 = provider;
+      this.accounts = await this.web3Service.web3.eth.requestAccounts();
+      this.isLoggedCheck = true;
+    } else this.isLoggedCheck = true;
   }
 
   async loginMagic() {
@@ -36,18 +44,19 @@ export class AppComponent {
     //   this.accounts = account;
     //   console.log(account);
     //   from(magic.wallet.getProvider()).subscribe(provider => {
-    //     this.web3 = new Web3(provider)
+    //     this.web3Service.web3 = new Web3(provider)
     //   })
     // }, error => {
     //   console.log(error);
     // });
-    let provider = await magic.wallet.getProvider();
-    this.web3 = new Web3(provider);
+
+    // this.web3Service.web3 = new Web3(provider);
 
     this.accounts = await magic.wallet.connectWithUI();
     console.log(await magic.wallet.getInfo());
     // await provider.connect();
-
+    let provider = await magic.wallet.getProvider();
+    this.web3Service.web3 = provider;
 
 
   }
@@ -60,14 +69,14 @@ export class AppComponent {
   }
 
   async signMessage() {
-    this.signature = await this.web3.eth.personal.sign(this.messageToSign, this.accounts[0], '');
+    this.signature = await this.web3Service.web3.eth.personal.sign(this.messageToSign, this.accounts[0], '');
     console.log(this.signature);
-    let res = await this.web3.eth.sign(this.web3.utils.utf8ToHex(this.messageToSign), this.accounts[0]);
-    console.log(res);
-    // if (this.web3.currentProvider) {
-    //   from(this.web3.currentProvider.request({
+    // let res = await this.web3Service.web3.eth.sign(this.web3Service.web3.utils.utf8ToHex(this.messageToSign), this.accounts[0]);
+    // console.log(res);
+    // if (this.web3Service.web3.currentProvider) {
+    //   from(this.web3Service.web3.currentProvider.request({
     //     method: 'personal_sign',
-    //     params: [this.web3.utils.utf8ToHex(this.messageToSign), this.accounts[0]],
+    //     params: [this.web3Service.web3.utils.utf8ToHex(this.messageToSign), this.accounts[0]],
     //     requestOptions: { from: this.accounts[0] }
     //   })).subscribe(res => console.log(res));
     // }
@@ -77,15 +86,15 @@ export class AppComponent {
 
   async showBalance() {
     if ((await magic.wallet.getInfo()).walletType == 'magic') await magic.wallet.showBalances();
-    else console.log('Balance: ', await this.web3.eth.getBalance(this.accounts[0]));
+    else console.log('Balance: ', await this.web3Service.web3.eth.getBalance(this.accounts[0]));
   }
 
   // signMessage() {
-  //   let msg = this.web3.utils.utf8ToHex(this.messageToSign);
+  //   let msg = this.web3Service.web3.utils.utf8ToHex(this.messageToSign);
   //   let params: string[] = [msg, this.accounts[0]];
   //   const method = 'personal_sign'
-  //   if (this.web3.currentProvider) {
-  //     from(this.web3.currentProvider.request({
+  //   if (this.web3Service.web3.currentProvider) {
+  //     from(this.web3Service.web3.currentProvider.request({
   //       method,
   //       params,
   //       requestOptions: { method }
@@ -97,9 +106,16 @@ export class AppComponent {
   // }
 
   async sendBnB() {
-    let res = await this.web3.eth.sendTransaction({ from: this.accounts[0], to: this.receiverAddress, value: this.web3.utils.toWei(this.bnbAmount, 'ether'), gas: 21000 });
+    let res = await this.web3Service.web3.eth.sendTransaction({ from: this.accounts[0], to: this.receiverAddress, value: this.web3Service.web3.utils.toWei(this.bnbAmount, 'ether'), gas: 21000 });
     console.log(res);
     this.txLink = 'https://testnet.bscscan.com/tx/' + res.transactionHash;
+  }
+
+  sendPorceddu() {
+    this.smartContractService.getMaialettiContract().pipe(
+      switchMap((contract: any) => {
+        return from(contract.methods.addRecord(this.messageToSign).send({ from: this.accounts[0] }));
+      })).subscribe(res => console.log(res));
   }
 }
 
