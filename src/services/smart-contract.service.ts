@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Web3Service } from "./web3.service";
 import { Observable, async, of, switchMap } from "rxjs";
 import { Contract, ContractAbi } from "web3";
-import MaialettoABI from '../assets/maialettoABI.json'
+import MaialettoABI from '../assets/ABI/maialettoABI.json'
 
 @Injectable({
     providedIn: 'root'

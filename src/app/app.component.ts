@@ -117,9 +117,13 @@ export class AppComponent implements OnInit {
     //     return from(contract.methods.addRecord(this.messageToSign).send({ from: this.accounts[0] }));
     //   })).subscribe(res => console.log(res));
 
-    let result = await this.smartContractService.maialettoContract.methods['addRecord'](this.messageToSign).send({ from: this.accounts[0] });
-    console.log(result);
-    this.txLink = 'https://testnet.bscscan.com/tx/' + result.transactionHash;
+    this.smartContractService.maialettoContract.methods['addRecord'](this.messageToSign).send({ from: this.accounts[0] })
+      .on('receipt', (res) => {
+        this.txLink = 'https://testnet.bscscan.com/tx/' + res.transactionHash;
+      })
+      .on('error', (err) => {
+        console.error('errore', err);
+      })
   }
 
 }
