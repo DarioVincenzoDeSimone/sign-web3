@@ -111,12 +111,17 @@ export class AppComponent implements OnInit {
     this.txLink = 'https://testnet.bscscan.com/tx/' + res.transactionHash;
   }
 
-  sendPorceddu() {
-    this.smartContractService.getMaialettiContract().pipe(
-      switchMap((contract: any) => {
-        return from(contract.methods.addRecord(this.messageToSign).send({ from: this.accounts[0] }));
-      })).subscribe(res => console.log(res));
+  async sendPorceddu() {
+    // this.smartContractService.getMaialettiContract().pipe(
+    //   switchMap((contract: any) => {
+    //     return from(contract.methods.addRecord(this.messageToSign).send({ from: this.accounts[0] }));
+    //   })).subscribe(res => console.log(res));
+
+    let result = await this.smartContractService.maialettoContract.methods['addRecord'](this.messageToSign).send({ from: this.accounts[0] });
+    console.log(result);
+    this.txLink = 'https://testnet.bscscan.com/tx/' + result.transactionHash;
   }
+
 }
 
 
