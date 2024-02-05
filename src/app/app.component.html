@@ -13,18 +13,24 @@
 
     <button (click)="showBalance()">Balance</button>
     <ng-container *ngIf="signature">
-      <qrcode [qrdata]="signature" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+      <qrcode [qrdata]="signature" [width]="256" [errorCorrectionLevel]="'M'" (qrCodeURL)="geturlQRForSign($event)">
+      </qrcode>
+      <a [href]="urlQRSignature" download="qrcode">
+        <button>Download QR</button>
+      </a>
     </ng-container>
     <br>
     <input [(ngModel)]="receiverAddress" placeholder="receiverAddress">
     <input [(ngModel)]="bnbAmount" placeholder="bnb Amount" type="number">
     <button (click)="sendBnB()">SendBNB</button>
-    <ng-container *ngIf="txLink">
-      <qrcode [qrdata]="txLink" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
-    </ng-container>
-
-
     <br>
     <button (click)="sendPorceddu()">Send Porceddu</button>
+    <br>
+    <ng-container *ngIf="txLink">
+      <qrcode [qrdata]="txLink" [width]="256" [errorCorrectionLevel]="'M'" (qrCodeURL)="geturlQRForTx($event)"></qrcode>
+      <a [href]="urlQRTx" download="qrcode">
+        <button>Download QR</button>
+      </a>
+    </ng-container>
   </ng-container>
 </div>

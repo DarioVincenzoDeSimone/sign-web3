@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginWithEmailOTPConfiguration, LoginWithMagicLinkConfiguration, Magic } from 'magic-sdk';
-import { from, of, switchMap } from 'rxjs';
+import { SafeUrl } from '@angular/platform-browser';
+import { Magic } from 'magic-sdk';
+import { from } from 'rxjs';
 import { SmartContractService } from 'src/services/smart-contract.service';
 import { Web3Service } from 'src/services/web3.service';
-import Web3, { Numbers } from 'web3';
+import { Numbers } from 'web3';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,8 @@ export class AppComponent implements OnInit {
   bnbAmount: Numbers = '';
   txLink: string = '';
   isLoggedCheck: boolean = false;
+  urlQRSignature: SafeUrl = '';
+  urlQRTx: SafeUrl = '';
 
   constructor(
     private web3Service: Web3Service,
@@ -80,9 +83,17 @@ export class AppComponent implements OnInit {
     //     requestOptions: { from: this.accounts[0] }
     //   })).subscribe(res => console.log(res));
     // }
-
-
   }
+
+  geturlQRForSign(url: SafeUrl) {
+    console.log(url);
+    this.urlQRSignature = url;
+  }
+
+  geturlQRForTx(url: SafeUrl) {
+    this.urlQRTx = url;
+  }
+
 
   async showBalance() {
     if ((await magic.wallet.getInfo()).walletType == 'magic') await magic.wallet.showBalances();
