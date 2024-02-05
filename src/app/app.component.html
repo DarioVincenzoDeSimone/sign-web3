@@ -24,10 +24,16 @@
     <input [(ngModel)]="bnbAmount" placeholder="bnb Amount" type="number">
     <button (click)="sendBnB()">SendBNB</button>
     <br>
+    <input [(ngModel)]="company" placeholder="Company">
+    <input [(ngModel)]="codicePorceddu" placeholder="Codice Porceddu">
+    <input [(ngModel)]="peso" placeholder="peso">
     <button (click)="sendPorceddu()">Send Porceddu</button>
     <br>
     <ng-container *ngIf="txLink">
-      <qrcode [qrdata]="txLink" [width]="256" [errorCorrectionLevel]="'M'" (qrCodeURL)="geturlQRForTx($event)"></qrcode>
+      <a [href]="txLink" target="_blank">
+        <qrcode [qrdata]="txLink" [width]="256" [errorCorrectionLevel]="'M'" (qrCodeURL)="geturlQRForTx($event)">
+        </qrcode>
+      </a>
       <a [href]="urlQRTx" download="qrcode">
         <button>Download QR</button>
       </a>

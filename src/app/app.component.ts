@@ -24,6 +24,11 @@ export class AppComponent implements OnInit {
   urlQRSignature: SafeUrl = '';
   urlQRTx: SafeUrl = '';
 
+  //form
+  company: string = '';
+  codicePorceddu: string = '';
+  peso: string = '';
+
   constructor(
     private web3Service: Web3Service,
     private smartContractService: SmartContractService
@@ -127,8 +132,15 @@ export class AppComponent implements OnInit {
     //   switchMap((contract: any) => {
     //     return from(contract.methods.addRecord(this.messageToSign).send({ from: this.accounts[0] }));
     //   })).subscribe(res => console.log(res));
+    let dataToSend: any = [
+      {
+        company: this.company,
+        codicePorceddu: this.codicePorceddu,
+        peso: this.peso
+      }
+    ];
 
-    this.smartContractService.maialettoContract.methods['addRecord'](this.messageToSign).send({ from: this.accounts[0] })
+    this.smartContractService.maialettoContract.methods['addRecord'](JSON.stringify(dataToSend)).send({ from: this.accounts[0] })
       .on('receipt', (res) => {
         this.txLink = 'https://testnet.bscscan.com/tx/' + res.transactionHash;
       })
