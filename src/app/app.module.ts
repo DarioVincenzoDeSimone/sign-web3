@@ -9,13 +9,17 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { GuestComponent } from './app/pages/guest/guest.component';
-import { SignInComponent } from './app/pages/guest/sign-in/sign-in.component';
-import { SignUpComponent } from './app/pages/guest/sign-up/sign-up.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { UserComponent } from './app/pages/user/user.component';
-import { HomeComponent } from './app/pages/user/home/home.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { GuestComponent } from './pages/guest/guest.component';
+import { SignInComponent } from './pages/guest/sign-in/sign-in.component';
+import { SignUpComponent } from './pages/guest/sign-up/sign-up.component';
+import { HomeComponent } from './pages/user/home/home.component';
+import { UserComponent } from './pages/user/user.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -26,6 +30,7 @@ import { HomeComponent } from './app/pages/user/home/home.component';
     SignUpComponent,
     UserComponent,
     HomeComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +43,10 @@ import { HomeComponent } from './app/pages/user/home/home.component';
     ReactiveFormsModule,
     MatButtonModule,
     // MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

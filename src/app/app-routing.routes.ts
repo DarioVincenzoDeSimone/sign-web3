@@ -1,11 +1,12 @@
 import { Routes } from "@angular/router";
-import { GuestComponent } from "./app/pages/guest/guest.component";
-import { SignInComponent } from "./app/pages/guest/sign-in/sign-in.component";
-import { SignUpComponent } from "./app/pages/guest/sign-up/sign-up.component";
 import { NoAuthGuard } from "src/services/guards/no-auth.guard";
 import { AuthGuard } from "src/services/guards/auth.guard";
-import { UserComponent } from "./app/pages/user/user.component";
-import { HomeComponent } from "./app/pages/user/home/home.component";
+import { GuestComponent } from "./pages/guest/guest.component";
+import { SignInComponent } from "./pages/guest/sign-in/sign-in.component";
+import { SignUpComponent } from "./pages/guest/sign-up/sign-up.component";
+import { HomeComponent } from "./pages/user/home/home.component";
+import { UserComponent } from "./pages/user/user.component";
+
 
 export const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'sign-in' },
