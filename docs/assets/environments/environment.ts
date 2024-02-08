@@ -1,0 +1,1 @@
+export const magickey = 'pk_live_E3F46F492F8EB8BD';
