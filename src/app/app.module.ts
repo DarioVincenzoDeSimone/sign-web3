@@ -14,6 +14,9 @@ import { SignInComponent } from './app/pages/guest/sign-in/sign-in.component';
 import { SignUpComponent } from './app/pages/guest/sign-up/sign-up.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { UserComponent } from './app/pages/user/user.component';
+import { HomeComponent } from './app/pages/user/home/home.component';
+
 
 @NgModule({
   declarations: [
@@ -21,6 +24,8 @@ import { MatInputModule } from '@angular/material/input';
     GuestComponent,
     SignInComponent,
     SignUpComponent,
+    UserComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
