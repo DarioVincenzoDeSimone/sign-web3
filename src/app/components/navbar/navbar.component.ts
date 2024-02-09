@@ -12,6 +12,7 @@ import { UserService } from 'src/services/user.service';
 export class NavbarComponent {
 
   userMenuList: IMenuList[] = [];
+  navigationItems: { label: string, path: string }[] = NAVIGATION_ITEMS();
 
   constructor(
     private userService: UserService,
@@ -52,7 +53,7 @@ export class NavbarComponent {
   logout() {
     from(this.magicService.magic.user.logout()).subscribe(_ => {
       // this.magicService.magic.user.onUserLoggedOut((isloggedOut: boolean) => {
-        location.reload();
+      location.reload();
       // });
     });
   }
@@ -63,4 +64,18 @@ interface IMenuList {
   label: string
   value: string
   action: (data?: any) => any
+}
+
+
+const NAVIGATION_ITEMS = (): { label: string, path: string }[] => {
+  return [
+    {
+      label: 'Home',
+      path: 'home'
+    },
+    {
+      label: 'Aggiungi Suino',
+      path: 'add-pig'
+    }
+  ]
 }
