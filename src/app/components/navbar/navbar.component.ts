@@ -28,7 +28,7 @@ export class NavbarComponent {
         },
         {
           label: 'wallet',
-          value: ui.wallet.slice(0, 5) + '...' + ui.wallet.slice(0, 4),
+          value: ui.wallet.substring(0, 5) + '...' + ui.wallet.substring(ui.wallet.length - 4, ui.wallet.length),
           action: () => this.clickOnWallet(ui.wallet)
         },
         {
