@@ -6,10 +6,11 @@ import { SignInComponent } from "./pages/guest/sign-in/sign-in.component";
 import { SignUpComponent } from "./pages/guest/sign-up/sign-up.component";
 import { HomeComponent } from "./pages/user/home/home.component";
 import { UserComponent } from "./pages/user/user.component";
+import { LandingComponent } from "./pages/landing/landing.component";
 
 
 export const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'sign-in' },
+    { path: '', pathMatch: 'full', redirectTo: 'landing' },
     //guest
     {
         path: '',
@@ -19,6 +20,16 @@ export const routes: Routes = [
         children: [
             { path: 'sign-in', component: SignInComponent },
             { path: 'sign-up', component: SignUpComponent }
+        ]
+    },
+    //landing
+    {
+        path: '',
+        // canActivate: [NoAuthGuard],
+        // canActivateChild: [NoAuthGuard],
+        // component: GuestComponent,
+        children: [
+            { path: 'landing', component: LandingComponent }
         ]
     },
     {

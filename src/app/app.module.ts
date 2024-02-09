@@ -20,6 +20,7 @@ import { SignUpComponent } from './pages/guest/sign-up/sign-up.component';
 import { HomeComponent } from './pages/user/home/home.component';
 import { UserComponent } from './pages/user/user.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { LandingComponent } from './pages/landing/landing.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
     UserComponent,
     HomeComponent,
     NavbarComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
