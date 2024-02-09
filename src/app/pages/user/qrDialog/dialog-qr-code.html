@@ -1,7 +1,10 @@
-<a [href]="data.txLink" target="_blank">
+<div class="p-10">
+
+  <a [href]="data.txLink" target="_blank">
     <qrcode [qrdata]="data.txLink" [width]="256" [errorCorrectionLevel]="'M'" (qrCodeURL)="geturlQRForTx($event)">
     </qrcode>
   </a>
-<a [href]="urlQRTx" download="qrcode">
+  <a [href]="urlQRTx" download="qrcode">
     <button mat-raised-button color="primary">Download QR</button>
   </a>
+</div>

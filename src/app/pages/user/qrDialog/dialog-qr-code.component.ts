@@ -6,7 +6,7 @@ import { QRCodeModule } from "angularx-qrcode";
 
 
 @Component({
-    selector: 'dialog-overview-example-dialog',
+    selector: 'qr-dialog',
     templateUrl: './dialog-qr-code.html',
     standalone: true,
     imports: [
@@ -21,7 +21,7 @@ import { QRCodeModule } from "angularx-qrcode";
 export class DialogQRcode {
 
     urlQRTx: SafeUrl;
-    
+
     constructor(
         public dialogRef: MatDialogRef<DialogQRcode>,
         @Inject(MAT_DIALOG_DATA) public data: { txLink: string },
