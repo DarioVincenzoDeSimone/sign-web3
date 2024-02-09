@@ -7,6 +7,8 @@ import { SignUpComponent } from "./pages/guest/sign-up/sign-up.component";
 import { HomeComponent } from "./pages/user/home/home.component";
 import { UserComponent } from "./pages/user/user.component";
 import { LandingComponent } from "./pages/landing/landing.component";
+import { AddPorcedduComponent } from "./pages/user/add-porceddu/add-porceddu.component";
+
 
 
 export const routes: Routes = [
@@ -37,7 +39,8 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         component: UserComponent,
         children: [
-            { path: 'home', component: HomeComponent }
+            { path: 'home', component: HomeComponent },
+            { path: 'add-pig', component: AddPorcedduComponent }
         ]
     }
 ];

@@ -21,6 +21,9 @@ import { HomeComponent } from './pages/user/home/home.component';
 import { UserComponent } from './pages/user/user.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { LandingComponent } from './pages/landing/landing.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddPorcedduComponent } from './pages/user/add-porceddu/add-porceddu.component';
 
 
 @NgModule({
@@ -33,6 +36,7 @@ import { LandingComponent } from './pages/landing/landing.component';
     HomeComponent,
     NavbarComponent,
     LandingComponent,
+    AddPorcedduComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,11 +48,13 @@ import { LandingComponent } from './pages/landing/landing.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    // MatFormFieldModule,
+    MatFormFieldModule,
     MatInputModule,
     MatToolbarModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCardModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
