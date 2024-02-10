@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { from, switchMap } from 'rxjs';
+import IPigRecord from 'src/app/interfaces/IPigRecord';
 import { SmartContractService } from 'src/services/smart-contract.service';
 import { IUser, UserService } from 'src/services/user.service';
 import { Web3Service } from 'src/services/web3.service';
@@ -12,6 +13,7 @@ import { Web3Service } from 'src/services/web3.service';
 export class HomeComponent implements OnInit {
 
   userInfo: IUser;
+  recordList: IPigRecord[] = [];
 
   constructor(
     private web3Service: Web3Service,
@@ -20,11 +22,15 @@ export class HomeComponent implements OnInit {
   ) { }
 
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void/* : Promise<void> */ {
     this.userService.userInfo$.pipe(switchMap(user => {
       this.userInfo = user;
-      return from(this.smartContractService.maialettoContract.methods['getRecordByAddress'](user.wallet).call())
-    })).subscribe(data => console.log('data da chain', data));
+      return from(this.smartContractService.maialettoContract.methods['getRecordByAddress'](user.wallet).call<any[]>())
+    })).subscribe(data => {
+      console.log('data da chain', data)
+      this.recordList = data.map(recordItem => JSON.parse(recordItem['text']));
+      console.log('Record list: ', this.recordList)
+    });
   }
 
 }

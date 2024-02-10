@@ -44,6 +44,7 @@ export class AddPorcedduComponent {
       .methods['addRecord'](JSON.stringify(this.porcedduForm.value))
       .send({ from: this.userInfo.wallet })).pipe(switchMap(
         res => {
+          console.log('Tx hash: ' + res.transactionHash)
           this.txLink = chainScan + res.transactionHash;
           return of(true);//TODO Chiamata al backEnd
         }

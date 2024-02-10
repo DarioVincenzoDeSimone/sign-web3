@@ -1,0 +1,46 @@
+<table *ngIf="dataSource && dataSource.length; else emptyState" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="company">
+        <th mat-header-cell *matHeaderCellDef> Company </th>
+        <td mat-cell *matCellDef="let element"> {{element.company}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Weight </th>
+        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="razza">
+        <th mat-header-cell *matHeaderCellDef> Razza </th>
+        <td mat-cell *matCellDef="let element"> {{element.razza}} </td>
+      </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<ng-template #emptyState>
+    <div class="w-full text-center mx-auto py-12" >
+        <img class="w-32 h-32 mx-auto"
+          src="/assets/img/empty-folder.svg"
+          alt="image empty states">
+        <p class="text-gray-700 font-medium text-lg text-center">Nessun record disponibile.</p>
+        <p class="text-gray-500 text-center">Puoi aggiungere dei record da mostrare in questa tabella.</p>
+        <a routerLink="/add-pig">
+          <button
+          class="flex items-center px-4 py-1.5 border border-gray-400 mt-4 hover:text-white text-gray-600 rounded text-sm hover:bg-blue-600 mx-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6  mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Registra un maiale
+        </button>
+        </a>
+      </div>
+</ng-template>

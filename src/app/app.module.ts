@@ -24,6 +24,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddPorcedduComponent } from './pages/user/add-porceddu/add-porceddu.component';
+import { PigTableModule } from './components/pig-table/pig-table.module';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { AddPorcedduComponent } from './pages/user/add-porceddu/add-porceddu.com
     MatIconModule,
     MatMenuModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    PigTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
