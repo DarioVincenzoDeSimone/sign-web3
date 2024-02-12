@@ -7,7 +7,6 @@ import { SmartContractService, addresses } from 'src/services/smart-contract.ser
 import { IUser, UserService } from 'src/services/user.service';
 import { DialogQRcode } from '../qrDialog/dialog-qr-code.component';
 import { Web3Service } from 'src/services/web3.service';
-import { network } from 'docs/assets/environments/environment';
 
 @Component({
   selector: 'app-add-porceddu',
