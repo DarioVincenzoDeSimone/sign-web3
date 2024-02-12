@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build-for-github": "ng build --output-path docs --base-href /sign-web3/",
+    "build-for-github-dev": "ng build --output-path docs --base-href /sign-web3/ --configuration development",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
