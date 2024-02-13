@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QRCodeModule } from 'angularx-qrcode';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,7 +24,12 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddPorcedduComponent } from './pages/user/add-porceddu/add-porceddu.component';
-import { PigTableModule } from './components/pig-table/pig-table.module';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { LoadingInterceptor } from './loading.interceptor';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { RouterModule } from '@angular/router';
+import { PigTableComponent } from './components/pig-table/pig-table.component';
 
 
 @NgModule({
@@ -38,6 +43,8 @@ import { PigTableModule } from './components/pig-table/pig-table.module';
     NavbarComponent,
     LandingComponent,
     AddPorcedduComponent,
+    SpinnerComponent,
+    PigTableComponent
   ],
   imports: [
     BrowserModule,
@@ -56,9 +63,17 @@ import { PigTableModule } from './components/pig-table/pig-table.module';
     MatMenuModule,
     MatCardModule,
     MatDialogModule,
-    PigTableModule
+    MatProgressSpinnerModule,
+    MatTableModule,
+        RouterModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, 
+      useClass: LoadingInterceptor, 
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

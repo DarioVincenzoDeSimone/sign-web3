@@ -1,9 +1,14 @@
 
-interface IPigRecord {
+export interface IPigRecord {
     company: string,
     id: number,
     razza: string,
     weight: string
 }
 
-export default IPigRecord;
+export interface IAnimal{
+    code: string,
+    breed: string,
+    transactionHash: string
+}
+

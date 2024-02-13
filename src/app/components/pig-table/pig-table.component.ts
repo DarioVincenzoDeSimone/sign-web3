@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, type OnInit } from '@angular/core';
-import IPigRecord from 'src/app/interfaces/IPigRecord';
+import {IPigRecord, IAnimal} from 'src/app/interfaces/IPigRecord';
 
 @Component({
   selector: 'app-pig-table',
@@ -9,8 +9,9 @@ import IPigRecord from 'src/app/interfaces/IPigRecord';
 })
 export class PigTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'company', 'weight', 'razza'];
-  @Input() dataSource: IPigRecord[] = [];
+  displayedColumns: string[] = ['code', 'breed', 'transactionHash'];
+  /* @Input() dataSource: IPigRecord[] = []; */
+  @Input() dataSource: IAnimal[] = [];
 
   ngOnInit(): void { }
 

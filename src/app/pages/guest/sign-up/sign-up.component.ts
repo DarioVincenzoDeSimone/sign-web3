@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { first } from 'rxjs';
+import { ISignUpDTO } from 'src/app/interfaces/ISignUp';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,11 +13,15 @@ export class SignUpComponent {
   signupForm: FormGroup;
 
   constructor(
-    fb: FormBuilder
+    fb: FormBuilder,
+    private _userService: UserService
   ) {
     this.signupForm = fb.group({
       email: fb.control('', [Validators.required, Validators.email]),
-      companyName: fb.control('', [Validators.required]),
+      businessName: fb.control('', [Validators.required]),
+      name: fb.control('', [Validators.required]),
+      surname: fb.control('', [Validators.required]),
+      vatNumber: fb.control('', []),
       password: fb.control('', [Validators.required, Validators.minLength(4)]),
       passwordRepeat: fb.control('', [Validators.required, Validators.minLength(4)])
     },
@@ -22,7 +29,10 @@ export class SignUpComponent {
   }
 
   signup() {
-    console.log(this.signupForm);
+    let {passwordRepeat, email, ...signUpData} = this.signupForm.value;
+    signUpData = {...signUpData, username: email}
+    this._userService.signUp(signUpData as ISignUpDTO).pipe(first()).subscribe()
+    console.log(signUpData);
   }
 
 
