@@ -9,22 +9,26 @@ import { environment } from "src/environments/environment.development";
     providedIn: 'root'
 })
 
-export class AnimalService{
+export class AnimalService {
 
     private animals: ReplaySubject<IAnimal[]> = new ReplaySubject<IAnimal[]>(1);
 
-    constructor(private _httpClient: HttpClient){
+    constructor(private _httpClient: HttpClient) {
 
     }
 
-    get animals$ (): Observable<IAnimal[]>{
+    get animals$(): Observable<IAnimal[]> {
         return this.animals.asObservable()
     }
-
-    getAnimals(): Observable<{data: IAnimal[]}>{
-        return this._httpClient.post<{ data: IAnimal[]}>(environment.baseUrl + 'v1/animals/search', {}).pipe(
+    //NON FUNZIONANTE
+    getAnimals(): Observable<{ data: IAnimal[] }> {
+        return this._httpClient.post<{ data: IAnimal[] }>(environment.baseUrl + 'v1/animals/search', {}).pipe(
             tap(response => this.animals.next(response.data))
         )
+    }
+    //NON FUNZIONANTE
+    saveAnimal(data: IAnimal): Observable<any> {
+        return this._httpClient.put<{ data: IAnimal[] }>(environment.baseUrl + 'v1/animals/search', data);
     }
 
 }

@@ -7,6 +7,8 @@ import { SmartContractService, addresses } from 'src/services/smart-contract.ser
 import { IUserWallet, UserService } from 'src/services/user.service';
 import { DialogQRcode } from '../qrDialog/dialog-qr-code.component';
 import { Web3Service } from 'src/services/web3.service';
+import { AnimalService } from '../animals.service';
+import { IAnimal } from 'src/app/interfaces/IPigRecord';
 
 @Component({
   selector: 'app-add-porceddu',
@@ -24,14 +26,15 @@ export class AddPorcedduComponent {
     private smartContractService: SmartContractService,
     private userService: UserService,
     private dialog: MatDialog,
-    private web3Service: Web3Service
+    private web3Service: Web3Service,
+    private animalService: AnimalService
   ) {
     this.porcedduForm = fb.group(
       {
-        company: fb.control('', [Validators.required]),
-        id: fb.control('', [Validators.required]),
-        razza: fb.control('', [Validators.required]),
-        weight: fb.control('', [Validators.required]),
+        // company: fb.control('', [Validators.required]),
+        code: fb.control('', [Validators.required]),
+        breed: fb.control('', [Validators.required]),
+        // weight: fb.control('', [Validators.required]),
       }
     );
     this.userService.walletInfo$.subscribe(userInfo => this.userInfo = userInfo);
@@ -41,17 +44,19 @@ export class AddPorcedduComponent {
     // console.log(this.porcedduForm.value);
     from(this.smartContractService.maialettoContract
       .methods['addRecord'](JSON.stringify(this.porcedduForm.value))
-      .send({ from: this.userInfo.wallet })).pipe(switchMap(
-        res => {
-          console.log('Tx hash: ' + res.transactionHash)
-          this.txLink = chainScan + res.transactionHash;
-          return of(true);//TODO Chiamata al backEnd
+      .send({ from: this.userInfo.wallet })).pipe(
+        switchMap(
+          res => {
+            console.log('Tx hash: ' + res.transactionHash)
+            this.txLink = chainScan + res.transactionHash;
+            let data: IAnimal = { ...this.porcedduForm.value, transactionHash: res.transactionHash };
+            return this.animalService.saveAnimal(data);
+          }
+        )).subscribe(beRes => {
+          console.log('Chiamata al BE fatta');
+          this.openDialog(this.txLink);
         }
-      )).subscribe(beRes => {
-        console.log('Chiamata al BE fatta');
-        this.openDialog(this.txLink);
-      }
-      );
+        );
     // this.openDialog('https://testnet.bscscan.com/tx/0x5b798d9cb7347a5fee98360b75ea6e53935a31318b965d9aa23f69f353def4db');
 
     // let dataTx: string = this.smartContractService.maialettoContract.methods['addRecord'](JSON.stringify(this.porcedduForm.value)).encodeABI();

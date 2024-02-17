@@ -1,30 +1,30 @@
 <div class="p-5 ">
 
-    <mat-card *ngIf="userInfo" class="p-5">
+    <mat-card *ngIf="userInfo" class="p-1 sm:p-5">
         <mat-card-header>
             <mat-card-title>Aggiungi un Porceddu</mat-card-title>
             <mat-card-subtitle>Inserisci il porceddu nella blockchain</mat-card-subtitle>
         </mat-card-header>
-        <div class="p-3">
+        <div class="p-1 sm:p-3">
             <mat-card-content>
 
-                <form class="flex flex-wrap gap-2 place-content-between" [formGroup]="porcedduForm">
-                    <mat-form-field>
+                <form class="flex flex-col gap-2 max-w-[600px]" [formGroup]="porcedduForm">
+                    <!-- <mat-form-field>
                         <mat-label>Company</mat-label>
                         <input type="text" formControlName="company" matInput>
-                    </mat-form-field>
+                    </mat-form-field> -->
                     <mat-form-field>
                         <mat-label>Codice</mat-label>
-                        <input type="text" formControlName="id" matInput>
+                        <input type="text" formControlName="code" matInput>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Razza</mat-label>
-                        <input type="text" formControlName="razza" matInput>
+                        <input type="text" formControlName="breed" matInput>
                     </mat-form-field>
-                    <mat-form-field>
+                    <!-- <mat-form-field>
                         <mat-label>Peso</mat-label>
                         <input type="text" formControlName="weight" matInput>
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </form>
 
             </mat-card-content>
