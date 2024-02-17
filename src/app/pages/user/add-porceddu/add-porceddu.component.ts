@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { from, of, switchMap } from 'rxjs';
 import { chainScan } from 'src/assets/environments/environment';
 import { SmartContractService, addresses } from 'src/services/smart-contract.service';
-import { IUser, UserService } from 'src/services/user.service';
+import { IUserWallet, UserService } from 'src/services/user.service';
 import { DialogQRcode } from '../qrDialog/dialog-qr-code.component';
 import { Web3Service } from 'src/services/web3.service';
 
@@ -16,7 +16,7 @@ import { Web3Service } from 'src/services/web3.service';
 export class AddPorcedduComponent {
 
   porcedduForm: FormGroup;
-  userInfo: IUser;
+  userInfo: IUserWallet;
   txLink: string;
 
   constructor(
@@ -34,7 +34,7 @@ export class AddPorcedduComponent {
         weight: fb.control('', [Validators.required]),
       }
     );
-    this.userService.userInfo$.subscribe(userInfo => this.userInfo = userInfo);
+    this.userService.walletInfo$.subscribe(userInfo => this.userInfo = userInfo);
   }
 
   addOnChain() {

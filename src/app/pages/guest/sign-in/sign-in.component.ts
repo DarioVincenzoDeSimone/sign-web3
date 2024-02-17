@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { filter, from, pipe, switchMap, tap } from 'rxjs';
 import { ISignInDTO } from 'src/app/interfaces/ISignUp';
 import { MagicService } from 'src/services/magic.service';
@@ -19,7 +20,8 @@ export class SignInComponent {
     fb: FormBuilder,
     private magicService: MagicService,
     private router: Router,
-    private _userService: UserService
+    private _userService: UserService,
+    private _toastService: ToastrService
   ) {
     this.loginForm = fb.group({
       email: fb.control('', [Validators.required, Validators.email]),
@@ -36,14 +38,20 @@ export class SignInComponent {
       }
       this._userService.signIn(signInData)
       .pipe(
+        tap((response, ) => {
+          if(response && response?.token){
+            this._userService.setAuthToken(response.token)
+          }
+        }),
         switchMap(_ => {return from(this.magicService.magic.auth.loginWithEmailOTP({ email: this.loginForm.get('email').value }))}),
         switchMap(_ => {return from(this.magicService.magic.user.isLoggedIn())})
       ).subscribe(
         isLoggedIn => {
           if (isLoggedIn){
-            this.router.navigate(['home']);
+            this._toastService.success('Login effettuato correttamente', 'Successo');
+            setTimeout(() => this.router.navigate(['home']), 2000)
           }else{
-            console.error('Errore durante il login');
+            this._toastService.success('Qualcosa è andato storto', 'Errore');
           }
 
         }

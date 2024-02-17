@@ -19,7 +19,7 @@ export class NavbarComponent {
     private magicService: MagicService
   ) {
 
-    userService.userInfo$.subscribe(ui => {
+    userService.walletInfo$.subscribe(ui => {
       this.userMenuList.push(
         {
           label: 'Email',

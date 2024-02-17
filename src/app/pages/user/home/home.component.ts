@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, first, from, switchMap } from 'rxjs';
 import {IAnimal, IPigRecord} from 'src/app/interfaces/IPigRecord';
 import { SmartContractService } from 'src/services/smart-contract.service';
-import { IUser, UserService } from 'src/services/user.service';
+import { IUserWallet, UserService } from 'src/services/user.service';
 import { Web3Service } from 'src/services/web3.service';
 import { AnimalService } from '../animals.service';
 
@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   animalSub: Subscription;
 
-  userInfo: IUser;
+  walletInfo: IUserWallet;
   /* recordList: IPigRecord[] = []; */
   recordList: IAnimal[] = [];
 
@@ -32,9 +32,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.animalService.getAnimals().pipe(first()).subscribe();
     this.animalSub = this.animalService.animals$.subscribe(animalList => this.recordList = animalList)
 
-    this.userService.userInfo$.pipe(switchMap(user => {
-      this.userInfo = user;
-      return from(this.smartContractService.maialettoContract.methods['getRecordByAddress'](user.wallet).call<any[]>())
+    this.userService.walletInfo$.pipe(switchMap(walletUser => {
+      this.walletInfo = walletUser;
+      return from(this.smartContractService.maialettoContract.methods['getRecordByAddress'](walletUser.wallet).call<any[]>())
     })).subscribe(data => {
       
       console.log('data da chain', data)

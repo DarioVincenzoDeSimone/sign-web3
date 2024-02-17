@@ -30,6 +30,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { PigTableComponent } from './components/pig-table/pig-table.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -65,7 +66,9 @@ import { PigTableComponent } from './components/pig-table/pig-table.component';
     MatDialogModule,
     MatProgressSpinnerModule,
     MatTableModule,
-        RouterModule
+    RouterModule,
+    ToastrModule.forRoot(), // ToastrModule added
+
   ],
   providers: [
     {

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from "@angular/router";
 import { Observable, from, of, switchMap } from "rxjs";
 import { MagicService } from "../magic.service";
+import { UserService } from "../user.service";
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,8 @@ export class NoAuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
     constructor(
         private _router: Router,
-        private magicService: MagicService
+        private magicService: MagicService,
+        private userService: UserService
     ) { }
 
     // -----------------------------------------------------------------------------------------------------
@@ -63,9 +65,9 @@ export class NoAuthGuard implements CanActivate, CanActivateChild, CanLoad {
                 switchMap((authenticated) => {
 
                     // If the user is authenticated...
-                    if (authenticated) {
+                    if (authenticated && this.userService.authToken) {
                         // Redirect to the root
-                        this._router.navigate(['home']);
+                        this._router.navigate(['/home']);
                         // Prevent the access
                         return of(false);
                     }

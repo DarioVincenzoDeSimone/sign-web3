@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from "@angular/router";
 import { MagicService } from "../magic.service";
 import { Observable, switchMap, of, from } from "rxjs";
+import { UserService } from "../user.service";
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,8 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
     constructor(
         private _router: Router,
-        private magicService: MagicService
+        private magicService: MagicService,
+        private _userService: UserService
     ) { }
     /**
      * Can activate
@@ -57,19 +59,20 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
         return from(this.magicService.magic.user.isLoggedIn())
             .pipe(
                 switchMap((authenticated: boolean) => {
-                    //if user is not autenticated
-                    if (!authenticated) {
+
+                    if(authenticated && this._userService.authToken){
+                        return of(true);
+                    }else{
                         let redirectURL = queryPar.split('?')[0];
                         // let extraQueryPar: { [key: string]: string } = {};
                         // queryPar.split('?')[1]?.split('&').forEach(q => {
                         //     extraQueryPar[q.split('=')[0]] = q.split('=')[1];
                         // });
-                        this._router.navigate(['sign-in'], { queryParams: { redirectURL: redirectURL/* , ...extraQueryPar */ } });
+                        console.log('Non autenticato, navigate away')
+                        this._router.navigate(['/sign-in'], { queryParams: { redirectURL: redirectURL/* , ...extraQueryPar */ } });
                         //Prevent the access
                         return of(false);
-                        // else if()//to handle not allowed page if user is logged
                     }
-                    return of(true);
                 })
             );
     }

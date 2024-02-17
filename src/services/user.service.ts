@@ -12,12 +12,20 @@ import { ISignInDTO, ISignUpDTO } from "src/app/interfaces/ISignUp";
 
 export class UserService {
 
-    private _userWalletInfo: ReplaySubject<IUser> = new ReplaySubject<IUser>(1);
+    private _userWalletInfo: ReplaySubject<IUserWallet> = new ReplaySubject<IUserWallet>(1);
 
     constructor(
         private _httpClient: HttpClient,
         private magicService: MagicService
     ) { }
+
+    setAuthToken(token: string){
+        sessionStorage.setItem('token', token)
+    }
+
+    get authToken(): string{
+        return sessionStorage.getItem('token')
+    }
 
     getUserWalletInfo$(): Observable<MagicUserMetadata> {
         return from(this.magicService.magic.user.getInfo()).pipe(
@@ -28,7 +36,7 @@ export class UserService {
         );
     }
 
-    get userInfo$(): Observable<IUser> {
+    get walletInfo$(): Observable<IUserWallet> {
         return this._userWalletInfo.asObservable();
     }
 
@@ -38,15 +46,19 @@ export class UserService {
         })
     }
 
-    signIn(signInData: ISignInDTO){
-        return this._httpClient.post(environment.baseUrl + 'auth/login', {
+    signIn(signInData: ISignInDTO): Observable<IUserInfo>{
+        return this._httpClient.post<IUserInfo>(environment.baseUrl + 'auth/login', {
             ...signInData
         })
     }
 
 }
 
-export interface IUser {
+export interface IUserInfo{
+    token: string
+}
+
+export interface IUserWallet {
     email: string
     wallet: string
 }
