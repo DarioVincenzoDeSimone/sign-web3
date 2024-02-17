@@ -31,6 +31,7 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { PigTableComponent } from './components/pig-table/pig-table.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AuthInterceptor } from './auth.interceptor';
 
 
 @NgModule({
@@ -74,6 +75,11 @@ import { ToastrModule } from 'ngx-toastr';
     {
       provide: HTTP_INTERCEPTORS, 
       useClass: LoadingInterceptor, 
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS, 
+      useClass: AuthInterceptor, 
       multi: true
     }
   ],
