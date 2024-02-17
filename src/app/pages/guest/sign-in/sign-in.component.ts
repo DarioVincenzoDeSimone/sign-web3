@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { ToastrService } from 'ngx-toastr';
-import { filter, from, pipe, switchMap, tap } from 'rxjs';
+import { filter, from, pipe, switchMap, tap, catchError, of, Observable } from 'rxjs';
 import { ISignInDTO } from 'src/app/interfaces/ISignUp';
 import { MagicService } from 'src/services/magic.service';
 import { UserService } from 'src/services/user.service';
@@ -37,27 +38,40 @@ export class SignInComponent {
         password: this.loginForm.value['password']
       }
       this._userService.signIn(signInData)
-      .pipe(
-        tap((response, ) => {
-          if(response && response?.token){
-            this._userService.setAuthToken(response.token)
-          }
-        }),
-        switchMap(_ => {return from(this.magicService.magic.auth.loginWithEmailOTP({ email: this.loginForm.get('email').value }))}),
-        switchMap(_ => {return from(this.magicService.magic.user.isLoggedIn())})
-      ).subscribe(
-        isLoggedIn => {
-          if (isLoggedIn){
-            this._toastService.success('Login effettuato correttamente', 'Successo');
-            setTimeout(() => this.router.navigate(['home']), 2000)
-          }else{
-            this._toastService.success('Qualcosa è andato storto', 'Errore');
-          }
+        .pipe(
+          tap((response,) => {
+            if (response && response?.token) {
+              this._userService.setAuthToken(response.token);
+            }
+          }),
+          switchMap(_ => { return from(this.magicService.magic.auth.loginWithEmailOTP({ email: this.loginForm.get('email').value })) }),
+          switchMap(_ => { return from(this.magicService.magic.user.isLoggedIn()) }),
+          switchMap(isLoggedIn => {
+            let decodedToken = jwtDecode(this._userService.authToken);
+            if (isLoggedIn && !decodedToken['addressWallet']) return this.updateUserWallet(decodedToken);
+            return of(isLoggedIn);
+          }),
+          catchError(err => of(false))
+        ).subscribe(
+          isLoggedIn => {
+            if (isLoggedIn) {
+              this._toastService.success('Login effettuato correttamente', 'Successo');
+              setTimeout(() => this.router.navigate(['home']), 2000)
+            } else {
+              this._toastService.error('Qualcosa è andato storto', 'Errore');
+            }
 
-        }
-      )
-    }else{
+          }
+        )
+    } else {
       console.log('Form non valido')
     }
+  }
+
+  updateUserWallet(decodedToken: JwtPayload): Observable<boolean> {
+    return from(this.magicService.magic.user.getInfo()).pipe(
+      switchMap(res => this._userService.updateUserWallet(decodedToken['id'], res.publicAddress)),
+      switchMap(_ => of(true))
+    )
   }
 }

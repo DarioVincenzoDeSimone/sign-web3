@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
     "angularx-qrcode": "^16.0.2",
+    "jwt-decode": "^4.0.0",
     "magic-sdk": "^22.0.1",
     "ngx-toastr": "^18.0.0",
     "rxjs": "~7.8.0",

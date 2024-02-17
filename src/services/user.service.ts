@@ -19,11 +19,11 @@ export class UserService {
         private magicService: MagicService
     ) { }
 
-    setAuthToken(token: string){
+    setAuthToken(token: string) {
         sessionStorage.setItem('token', token)
     }
 
-    get authToken(): string{
+    get authToken(): string {
         return sessionStorage.getItem('token')
     }
 
@@ -40,21 +40,25 @@ export class UserService {
         return this._userWalletInfo.asObservable();
     }
 
-    signUp(signUpData: ISignUpDTO){
+    signUp(signUpData: ISignUpDTO) {
         return this._httpClient.post(environment.baseUrl + 'auth/sign-up', {
             ...signUpData
         })
     }
 
-    signIn(signInData: ISignInDTO): Observable<IUserInfo>{
+    signIn(signInData: ISignInDTO): Observable<IUserInfo> {
         return this._httpClient.post<IUserInfo>(environment.baseUrl + 'auth/login', {
             ...signInData
         })
     }
 
+    updateUserWallet(id: number, addressWallet: string): Observable<any> {
+        return this._httpClient.put(environment.baseUrl + 'v1/users/' + id, { addressWallet });
+    }
+
 }
 
-export interface IUserInfo{
+export interface IUserInfo {
     token: string
 }
 
