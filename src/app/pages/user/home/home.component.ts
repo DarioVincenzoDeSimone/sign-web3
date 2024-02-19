@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, first, from, switchMap } from 'rxjs';
-import {IAnimal, IPigRecord} from 'src/app/interfaces/IPigRecord';
+import { IAnimal, IPigRecord } from 'src/app/interfaces/IPigRecord';
 import { SmartContractService } from 'src/services/smart-contract.service';
 import { IUserWallet, UserService } from 'src/services/user.service';
 import { Web3Service } from 'src/services/web3.service';
@@ -30,21 +30,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void/* : Promise<void> */ {
 
     this.animalService.getAnimals().pipe(first()).subscribe();
-    this.animalSub = this.animalService.animals$.subscribe(animalList => this.recordList = animalList)
+    this.animalSub = this.animalService.animals$.subscribe(animalList => {
+      console.log('lista da BE', animalList);
+      this.recordList = animalList.map(a => {
+        return {
+          code: a.code,
+          breed: a.breed,
+          transactionHash: a.transactionHash
+        }
+      });
+    })
 
-    this.userService.walletInfo$.pipe(switchMap(walletUser => {
-      this.walletInfo = walletUser;
-      return from(this.smartContractService.maialettoContract.methods['getRecordByAddress'](walletUser.wallet).call<any[]>())
-    })).subscribe(data => {
-      
-      console.log('data da chain', data)
-      /* this.recordList = data.map(recordItem => JSON.parse(recordItem['text'])); */
-      console.log('Record list: ', this.recordList)
-    });
+    // this.userService.walletInfo$.pipe(switchMap(walletUser => {
+    //   this.walletInfo = walletUser;
+    //   return from(this.smartContractService.maialettoContract.methods['getRecordByAddress'](walletUser.wallet).call<any[]>())
+    // })).subscribe(data => {
+
+    //   console.log('data da chain', data)
+    //   /* this.recordList = data.map(recordItem => JSON.parse(recordItem['text'])); */
+    //   console.log('Record list: ', this.recordList)
+    // });
   }
 
   ngOnDestroy(): void {
-      this.animalSub?.unsubscribe()
+    this.animalSub?.unsubscribe()
   }
 
 }

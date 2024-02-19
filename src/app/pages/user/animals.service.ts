@@ -20,15 +20,25 @@ export class AnimalService {
     get animals$(): Observable<IAnimal[]> {
         return this.animals.asObservable()
     }
-    //NON FUNZIONANTE
-    getAnimals(): Observable<{ data: IAnimal[] }> {
-        return this._httpClient.post<{ data: IAnimal[] }>(environment.baseUrl + 'v1/animals/search', {}).pipe(
-            tap(response => this.animals.next(response.data))
-        )
+    // //NON FUNZIONANTE
+    // getAnimals(): Observable<{ data: IAnimal[] }> {
+    //     return this._httpClient.post<{ data: IAnimal[] }>(environment.baseUrl + 'v1/animals/search', {}).pipe(
+    //         tap(response => this.animals.next(response.data))
+    //     )
+    // }
+
+    getAnimals(): Observable<any> {
+        let body = {}
+        return this._httpClient.post(environment.baseUrl + 'v1/users/search', body).pipe(
+            tap(response => {
+                let animalList: IAnimal[] = response.data.map(r => r.animals)[0];
+                this.animals.next(animalList)
+            })
+        );
     }
-    //NON FUNZIONANTE
+
     saveAnimal(data: IAnimal): Observable<any> {
-        return this._httpClient.put<{ data: IAnimal[] }>(environment.baseUrl + 'v1/animals/search', data);
+        return this._httpClient.post<{ data: IAnimal[] }>(environment.baseUrl + 'v1/animals', data);
     }
 
 }
