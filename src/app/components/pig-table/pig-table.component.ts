@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges, type OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
-import { chainScan } from 'docs/assets/environments/environment';
 import { IPigRecord, IAnimal } from 'src/app/interfaces/IPigRecord';
 import { DialogQRcode } from 'src/app/pages/user/qrDialog/dialog-qr-code.component';
+import { chainScan } from 'src/assets/environments/environment';
 
 @Component({
   selector: 'app-pig-table',
