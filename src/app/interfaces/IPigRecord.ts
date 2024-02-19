@@ -1,3 +1,4 @@
+import { SafeUrl } from "@angular/platform-browser"
 
 export interface IPigRecord {
     company: string,
@@ -6,9 +7,10 @@ export interface IPigRecord {
     weight: string
 }
 
-export interface IAnimal{
+export interface IAnimal {
     code: string,
     breed: string,
     transactionHash: string
+    urlQRTx?: SafeUrl //will be valued in table component
 }
 
