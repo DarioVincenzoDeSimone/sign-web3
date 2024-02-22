@@ -74,7 +74,7 @@ const NAVIGATION_ITEMS = (): { label: string, path: string }[] => {
       path: 'home'
     },
     {
-      label: 'Aggiungi Suino',
+      label: 'Registra Suino',
       path: 'add-pig'
     }
   ]
