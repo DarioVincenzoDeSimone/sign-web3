@@ -8,8 +8,13 @@ export interface IPigRecord {
 }
 
 export interface IAnimal {
-    code: string,
-    breed: string,
+    code: string
+    breed: string
+    certified: boolean
+    address: string
+    city: string
+    province: string
+    cap: string
     transactionHash: string
     urlQRTx?: SafeUrl //will be valued in table component
 }

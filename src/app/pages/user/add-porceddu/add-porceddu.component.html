@@ -1,6 +1,6 @@
-<div class="p-5 ">
+<div class="p-1 sm:p-5  ">
 
-    <mat-card *ngIf="userInfo" class="p-1 sm:p-5">
+    <mat-card *ngIf="userInfo" class="p-1 sm:p-5 max-w-[1200px]">
         <mat-card-header>
             <mat-card-title>Registrazione Suino</mat-card-title>
             <mat-card-subtitle>Tracciabilità nella Blockchain</mat-card-subtitle>
@@ -8,23 +8,42 @@
         <div class="p-1 sm:p-3">
             <mat-card-content>
 
-                <form class="flex flex-col gap-2 max-w-[600px]" [formGroup]="porcedduForm">
-                    <!-- <mat-form-field>
-                        <mat-label>Company</mat-label>
-                        <input type="text" formControlName="company" matInput>
-                    </mat-form-field> -->
-                    <mat-form-field>
-                        <mat-label>Codice</mat-label>
-                        <input type="text" formControlName="code" matInput>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Razza</mat-label>
-                        <input type="text" formControlName="breed" matInput>
-                    </mat-form-field>
-                    <!-- <mat-form-field>
-                        <mat-label>Peso</mat-label>
-                        <input type="text" formControlName="weight" matInput>
-                    </mat-form-field> -->
+                <form class="flex gap-10 flex-col sm:flex-row" [formGroup]="porcedduForm">
+                    <div class="flex flex-col w-full sm:w-1/2">
+                        <mat-form-field>
+                            <mat-label>Azienda Agricola</mat-label>
+                            <input type="text" formControlName="businessName" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Codice</mat-label>
+                            <input type="text" formControlName="code" matInput>
+                        </mat-form-field>
+                        <div class="flex gap-3 items-center">
+                            <mat-form-field>
+                                <mat-label>Razza</mat-label>
+                                <input type="text" formControlName="breed" matInput>
+                            </mat-form-field>
+                            <mat-checkbox formControlName="certified">Certificata</mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-full sm:w-1/2">
+                        <mat-form-field>
+                            <mat-label>Città</mat-label>
+                            <input type="text" formControlName="city" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Provincia</mat-label>
+                            <input type="text" formControlName="province" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Via/località</mat-label>
+                            <input type="text" formControlName="address" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>CAP</mat-label>
+                            <input type="text" formControlName="cap" matInput>
+                        </mat-form-field>
+                    </div>
                 </form>
 
             </mat-card-content>

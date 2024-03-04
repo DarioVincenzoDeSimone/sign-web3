@@ -13,7 +13,7 @@ import { chainScan } from 'src/assets/environments/environment';
 })
 export class PigTableComponent /* implements OnChanges */ {
 
-  displayedColumns: string[] = ['code', 'breed', 'transactionHash', 'actions'];
+  displayedColumns: string[] = ['code', 'breed', 'certified', 'address', 'city', 'province', 'cap', 'transactionHash', 'actions'];
   /* @Input() dataSource: IPigRecord[] = []; */
   @Input() dataSource: IAnimal[] = [];
   // _dataSource: IAnimalTable[] = [];

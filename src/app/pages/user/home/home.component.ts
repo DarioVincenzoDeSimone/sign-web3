@@ -36,6 +36,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         return {
           code: a.code,
           breed: a.breed,
+          certified: a.certified,
+          address: a.address,
+          cap: a.cap,
+          city: a.city,
+          province: a.province,
           transactionHash: a.transactionHash
         }
       });

@@ -32,6 +32,7 @@ import { RouterModule } from '@angular/router';
 import { PigTableComponent } from './components/pig-table/pig-table.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from './auth.interceptor';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { AuthInterceptor } from './auth.interceptor';
     MatProgressSpinnerModule,
     MatTableModule,
     RouterModule,
+    MatCheckboxModule,
     ToastrModule.forRoot(), // ToastrModule added
 
   ],
